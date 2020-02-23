@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}Order{% endtrans %}{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}Order{% endtrans %}</h1>
+
+    <div class="order card" style="min-width: 10rem;">
+        <div class="card-body">
+            <p class="card-text">{{ order.number }}</p>
+        </div>
+        <div class="card-footer">
+            {% if workflow_can(order, 'pay') %}
+                <form action="{{ path('pay_order', {order_number: order.number}) }}" method="POST">
+                    <button type="submit" class="btn btn-primary">{% trans %}Pay{% endtrans %}</button>
+                </form>
+            {% endif %}
+
+            {% if workflow_can(order, 'ship') %}
+                <button type="submit" class="btn btn-primary">{% trans %}Ship{% endtrans %}</button>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

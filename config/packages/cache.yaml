@@ -17,3 +17,18 @@ framework:
         # Namespaced pools use the above "app" backend by default
         #pools:
             #my.dedicated.cache: null
+
+        pools:
+            homepage_cache:
+                adapter: cache.adapter.filesystem
+                default_lifetime: 60
+                # adapter: cache.adapter.redis
+                # provider: redis_provider
+
+#services:
+#    redis_provider:
+#        class: Redis
+#        factory: ['Symfony\Component\Cache\Adapter\RedisAdapter', 'createConnection']
+#        arguments:
+#            - 'redis://localhost'
+#            - { retry_interval: 2, timeout: 10 }

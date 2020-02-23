@@ -6,14 +6,13 @@ namespace App\Product\FormType;
 use App\Entity\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
-use Symfony\Component\Validator\Constraints\Length;
 
 abstract class ProductType extends AbstractType
 {
@@ -28,6 +27,11 @@ abstract class ProductType extends AbstractType
             ])
             ->add('price', MoneyType::class, [
                 'currency' => 'CAD',
+                'required' => true,
+            ])
+            ->add('cover', FileType::class, [
+                'label' => 'Cover image',
+                'mapped' => true,
                 'required' => true,
             ])
         ;
@@ -54,8 +58,8 @@ abstract class ProductType extends AbstractType
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         // Override the upload requirement based on the provided data.
-//        if ($form->getViewData()->coverFileName !== '') {
-//            $view['cover']->vars['required'] = false;
-//        }
+        if ($form->getViewData()->coverFileName !== '') {
+            $view['cover']->vars['required'] = false;
+        }
     }
 }

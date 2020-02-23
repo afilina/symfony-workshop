@@ -39,3 +39,13 @@ cart_add_product:
     path: /cart/add/{code}
     controller: App\ShoppingCart\Controller\AddProduct::handle
     methods: POST
+
+view_order:
+    path: /orders/{order_number}
+    controller: App\Order\Controller\ViewOrder::handle
+    methods: GET
+
+pay_order:
+    path: /orders/{order_number}/pay
+    controller: App\Order\Controller\PayOrder::handle
+    methods: POST

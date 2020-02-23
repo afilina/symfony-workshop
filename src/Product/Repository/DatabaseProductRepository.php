@@ -8,35 +8,48 @@ use App\EventListener\UserPreferences;
 use App\Product\Exception\DuplicateProduct;
 use App\Product\Exception\ProductNotFound;
 use App\Product\Value\ProductCode;
+use App\Upload\Repository\ImageRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\FetchMode;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 final class DatabaseProductRepository implements ProductRepository
 {
     private Connection $connection;
     private UserPreferences $userPreferences;
+    private ImageRepository $imageRepository;
+    private CacheInterface $cache;
 
     public function __construct(
         Connection $connection,
-        UserPreferences $userPreferences
+        UserPreferences $userPreferences,
+        ImageRepository $imageRepository,
+        CacheInterface $cache
     )
     {
         $this->connection = $connection;
         $this->userPreferences = $userPreferences;
+        $this->imageRepository = $imageRepository;
+        $this->cache = $cache;
     }
 
     public function getListData(): array
     {
-        $statement = $this->connection->prepare(
-            'SELECT
-                p.code,
-                IFNULL(t.name, "***MISSING_NAME***") as name,
-                price
-            FROM products p
-            LEFT JOIN product_translation t ON t.code = p.code AND t.locale = :locale');
-        $statement->execute(['locale' => $this->userPreferences->getLocale()]);
-        $rows = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        $rows = $this->cache->get('products.list.all.query', function (ItemInterface $cacheItem) {
+//            $cacheItem->expiresAfter(5);
+            $statement = $this->connection->prepare(
+                'SELECT
+                    p.code,
+                    IFNULL(t.name, "***MISSING_NAME***") as name,
+                    price,
+                    coverFileName
+                FROM products p
+                LEFT JOIN product_translation t ON t.code = p.code AND t.locale = :locale');
+            $statement->execute(['locale' => $this->userPreferences->getLocale()]);
+            return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        });
 
         return array_map(function (array $row) {
             return $this->rowToProduct($row);
@@ -52,7 +65,8 @@ final class DatabaseProductRepository implements ProductRepository
             'SELECT
                 p.code,
                 IFNULL(t.name, "***MISSING_NAME***") as name,
-                price
+                price,
+                coverFileName
             FROM products p
             LEFT JOIN product_translation t ON t.code = p.code AND t.locale = :locale
             WHERE p.code IN (:codes)',
@@ -75,6 +89,8 @@ final class DatabaseProductRepository implements ProductRepository
         $product->code = $row['code'];
         $product->name = $row['name'];
         $product->price = (int) $row['price'];
+        $product->coverFileName = $row['coverFileName'];
+        $product->coverUrl = $this->imageRepository->getUrlByFileName($product->coverFileName);
 
         return $product;
     }
@@ -86,6 +102,7 @@ final class DatabaseProductRepository implements ProductRepository
         return [
             'code' => $product->code,
             'price' => $product->price,
+            'coverFileName' => $product->coverFileName,
         ];
     }
 
@@ -95,7 +112,8 @@ final class DatabaseProductRepository implements ProductRepository
             'SELECT
                 p.code,
                 IFNULL(t.name, "***MISSING_NAME***") as name,
-                price
+                price,
+                coverFileName
             FROM products p
             LEFT JOIN product_translation t ON t.code = p.code AND t.locale = :locale
             WHERE p.code = :code');
@@ -114,16 +132,22 @@ final class DatabaseProductRepository implements ProductRepository
 
     public function create(ProductCode $code, Product $product): void
     {
+        $product->coverFileName = $this->imageRepository->create($product->cover);
+
         try {
             $this->connection->insert('products', $this->productToRow($product));
-            $this->replaceTranslation($product);
         } catch (UniqueConstraintViolationException $exception) {
             throw DuplicateProduct::create($code);
         }
+
+        $this->replaceTranslation($product);
     }
 
     public function update(ProductCode $code, Product $product): void
     {
+        if ($product->cover !== null) {
+            $product->coverFileName = $this->imageRepository->create($product->cover);
+        }
         $this->connection->update('products', $this->productToRow($product), ['code' => $code]);
         $this->replaceTranslation($product);
     }

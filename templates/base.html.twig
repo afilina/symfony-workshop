@@ -19,6 +19,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('view_cart') }}">{% trans %}Shopping Cart{% endtrans %}</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('view_order', {order_number: '0123456789'}) }}">{% trans %}Last Order{% endtrans %}</a>
+                </li>
             </ul>
         </nav>
         <div class="container">

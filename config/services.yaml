@@ -32,3 +32,10 @@ services:
     App\EventListener\LocaleListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
+
+    App\Upload\Repository\UploadConfiguration:
+        arguments:
+            $uploadFolder: '%kernel.project_dir%/public/uploads'
+            $uploadUrl: '/uploads'
+
+    App\Upload\Repository\ImageRepository: '@App\Upload\Repository\FilesystemImageRepository'

@@ -1,2 +1,28 @@
 framework:
-    workflows: null
+    workflows:
+        order:
+            type: 'workflow'
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: 'method'
+                property: 'currentPlace'
+            supports:
+                - App\Entity\Order
+            initial_marking: created
+            places:
+                - created
+                - paid
+                - shipped
+                - delivered
+            transitions:
+                pay:
+                    from: created
+                    to:   paid
+                ship:
+                    from: paid
+                    to:   shipped
+                    guard: "is_granted('ROLE_ADMIN')"
+                deliver:
+                    from: shipped
+                    to:   delivered

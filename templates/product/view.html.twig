@@ -5,7 +5,8 @@
 {% block body %}
     <div id="product" class="row">
         <div class="col-sm">
-            {# Space reserved for upcoming cover picture #}
+            <img style="object-fit: cover; height: 25rem; width: 100%" src="{{ item.coverUrl }}"
+                 alt="Cover: {{ item.name }}">
         </div>
         <div class="col-sm">
             <div class="card">

@@ -9,6 +9,7 @@
         <div id="products" class="card-columns">
             {% for item in items %}
                 <div class="product card" style="min-width: 10rem;">
+                    <img class="card-img-top" style="object-fit: cover; height: 12rem" src="{{ item.coverUrl }}" alt="Cover: {{ item.name }}">
                     <div class="card-body">
                         <h5 class="card-title product-name">{{ item.name }}</h5>
                         <p class="card-text">{{ item.price }} X <span class="quantity">{{ item.quantity }}</span></p>

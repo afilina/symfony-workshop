@@ -7,6 +7,7 @@ use App\Entity\Product;
 use App\Product\FormType\UpdateProductType;
 use App\Product\Repository\ProductRepository;
 use App\Product\Value\ProductCode;
+use App\Upload\Repository\ImageRepository;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;

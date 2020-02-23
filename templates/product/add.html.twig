@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+            crossorigin="anonymous"></script>
+    <script>
+      $('#create_product_cover').on('change',function(){
+        let fileName = $(this).val();
+        let cleanFileName = fileName.replace('C:\\fakepath\\', " ");
+        $(this).next('.custom-file-label').html(cleanFileName);
+      })
+    </script>
+{% endblock %}
+
 {% block title %}
     {% trans %}Add Product{% endtrans %}
 {% endblock %}

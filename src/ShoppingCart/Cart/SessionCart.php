@@ -107,7 +107,8 @@ final class SessionCart implements Cart
             return CartItemView::fromValues(
                 $item->getQuantity()->toInteger(),
                 $product->name,
-                $product->price
+                $product->price,
+                $product->coverUrl
             );
         }, $products, $cartItems);
     }
