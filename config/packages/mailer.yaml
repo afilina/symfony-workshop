@@ -1,3 +1,6 @@
+parameters:
+    email_sender_default: '%env(MAILER_DEFAULT_SENDER)%'
+
 framework:
     mailer:
         dsn: '%env(MAILER_DSN)%'

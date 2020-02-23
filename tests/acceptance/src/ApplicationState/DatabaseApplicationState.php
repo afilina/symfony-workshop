@@ -22,6 +22,7 @@ final class DatabaseApplicationState implements ApplicationState
         $numRows = $this->getNumRows('products');
         $this->database->insert('products', [
             'code' => '00000' . ($numRows + 1),
+            'coverFileName' => 'abc.png',
             'id' => ($numRows + 1),
         ]);
         $this->database->insert('product_translation', [

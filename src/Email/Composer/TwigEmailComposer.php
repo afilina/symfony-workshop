@@ -6,6 +6,7 @@ namespace App\Email\Composer;
 use App\Email\Value\ResetPassword;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment as Twig;
 
@@ -36,9 +37,9 @@ final class TwigEmailComposer implements EmailComposer
     public function resetPassword(ResetPassword $resetPassword): void
     {
         $this->sendEmail(
-            '', // Configurable default sender
-            '', // Recipient from request
-            '', // Subject
+            $this->params->get('email_sender_default'),
+            $resetPassword->getEmail(),
+            $this->translator->trans('Forgot Password', [], 'messages'),
             $this->templating->render('email/reset-password.txt.twig', ['message' => $resetPassword]),
             $this->templating->render('email/reset-password.html.twig', ['message' => $resetPassword])
         );
@@ -46,7 +47,12 @@ final class TwigEmailComposer implements EmailComposer
 
     protected function sendEmail(string $from, string $recipient, string $subject, string $text, string $html): void
     {
-        // Assemble e-mail
-        // Use mailer to send
+        $email = (new Email())
+            ->from($from)
+            ->to($recipient)
+            ->subject($subject)
+            ->text($text)
+            ->html($html);
+        $this->mailer->send($email);
     }
 }

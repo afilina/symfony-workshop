@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Product
@@ -26,4 +27,24 @@ class Product
      * @var int
      */
     public $price;
+    /**
+     * Unique name of the uploaded file. The actual file resides on the server.
+     *
+     * @var string
+     */
+    public $coverFileName;
+    /**
+     * This is only used to extract the file data from the form.
+     * We don't actually persist this field.
+     * @Assert\File(maxSize="1m", mimeTypes={"image/jpeg","image/png"})
+     * @var File
+     */
+    public $cover;
+    /**
+     * URL of the image. This should not be persisted as it can be
+     * extrapolated from the `coverFileName`.
+     *
+     * @var string
+     */
+    public $coverUrl;
 }
