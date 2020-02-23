@@ -28,5 +28,19 @@ class AddProductTest extends TestCase
 
     public function testHandle(): void
     {
+        $code = ProductCode::fromString('123456');
+        $this->cart
+            ->expects($this->once())
+            ->method('addItem')
+            ->with($code);
+
+        $response = $this->controller->handle(
+            Request::create('', 'POST', ['code' => (string) $code])
+        );
+
+        self::assertEquals(
+            new RedirectResponse('/cart'),
+            $response
+        );
     }
 }

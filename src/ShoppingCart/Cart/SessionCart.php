@@ -25,10 +25,21 @@ final class SessionCart implements Cart
     {
         $this->session = $session;
         $this->productRepository = $productRepository;
+
+        $cartData = $this->session->get('shopping_cart') ?? ['products' => []];
+        $this->cartItems = $this->arrayToItems($cartData['products']);
     }
 
     private function save()
     {
+        $cartItems = [];
+        foreach ($this->cartItems as $code => $item) {
+            $cartItems[$code] = $item->getQuantity()->toInteger();
+        }
+
+        $cartData = $this->session->get('shopping_cart');
+        $cartData['products'] = $cartItems;
+        $this->session->set('shopping_cart', $cartData);
     }
 
     public function addItem(ProductCode $productCode): void

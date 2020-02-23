@@ -14,7 +14,7 @@
                     <p class="card-text">{{ (item.price / 100) | number_format(2) }}</p>
                 </div>
                 <div class="card-footer">
-                    <form>
+                    <form action="{{ path('cart_add_product', {code: item.code}) }}" method="POST">
                         <button type="submit" class="btn btn-primary">Add to Cart</button>
                     </form>
                 </div>

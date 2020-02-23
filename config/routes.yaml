@@ -21,3 +21,8 @@ view_cart:
     path: /cart
     controller: App\ShoppingCart\Controller\ViewCart::handle
     methods: GET
+
+cart_add_product:
+    path: /cart/add/{code}
+    controller: App\ShoppingCart\Controller\AddProduct::handle
+    methods: POST
