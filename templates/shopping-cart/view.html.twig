@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shopping Cart{% endblock %}
+
+{% block body %}
+    <div id="shopping_cart">
+        <div id="products" class="card-columns">
+            {% for item in items %}
+                <div class="product card" style="min-width: 10rem;">
+                    <div class="card-body">
+                        <h5 class="card-title product-name">{{ item.name }}</h5>
+                        <p class="card-text">{{ item.price }} X <span class="quantity">{{ item.quantity }}</span></p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

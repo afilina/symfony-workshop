@@ -16,6 +16,9 @@ default:
                 - 'Tests\Acceptance\Context\Product':
                     - '@Symfony\Component\BrowserKit\HttpBrowser'
                     - '@Tests\Acceptance\ApplicationState\ApplicationState'
+                - 'Tests\Acceptance\Context\ShoppingCart':
+                    - '@Symfony\Component\BrowserKit\HttpBrowser'
+                    - '@Tests\Acceptance\ApplicationState\ApplicationState'
 
     extensions:
         Roave\BehatPsrContainer\PsrContainerExtension:

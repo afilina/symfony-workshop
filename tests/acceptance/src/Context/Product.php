@@ -28,6 +28,17 @@ class Product implements Context
     }
 
     /**
+     * @Given /^I am viewing product "([^"]*)"$/
+     */
+    public function iAmViewingProduct(string $name)
+    {
+        $product = $this->applicationState->getProduct($name);
+        $this->browser->request('GET', '/products/' . $product['code']);
+        Assert::that($this->browser->getResponse()->getStatusCode())
+            ->eq(200);
+    }
+
+    /**
      * @When /^I list the products$/
      */
     public function iListTheProducts()

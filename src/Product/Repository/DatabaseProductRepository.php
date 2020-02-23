@@ -32,6 +32,23 @@ final class DatabaseProductRepository implements ProductRepository
         }, $rows);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getListByCodes(array $codes): array
+    {
+        $statement = $this->connection->executeQuery(
+            'SELECT * FROM products WHERE code IN (:codes)',
+            ['codes' => $codes],
+            ['codes' => Connection::PARAM_STR_ARRAY]
+        );
+        $rows = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+
+        return array_map(function (array $row) {
+            return $this->rowToProduct($row);
+        }, $rows);
+    }
+
     private function rowToProduct(array $row): Product
     {
         $product = new Product();

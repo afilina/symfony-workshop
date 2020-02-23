@@ -8,4 +8,6 @@ interface ApplicationState
     public function reset(): void;
 
     public function addProduct(string $name): void;
+
+    public function getProduct(string $name): array;
 }

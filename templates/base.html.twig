@@ -4,9 +4,23 @@
         <meta charset="UTF-8">
         <title>{% block title %}Symfony Workshop{% endblock %}</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        {{ encore_entry_link_tags('app') }}
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('list_products') }}">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('create_product') }}">Add Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('view_cart') }}">Shopping Cart</a>
+                </li>
+            </ul>
+        </nav>
         <div class="container">
             {% block body %}{% endblock %}
         </div>

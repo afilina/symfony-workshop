@@ -1,3 +1,6 @@
-body {
-    background-color: lightgray;
+.container {
+    padding: 30px 0;
+}
+.card {
+    margin: 5px;
 }

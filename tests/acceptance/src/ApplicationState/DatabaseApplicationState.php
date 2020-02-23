@@ -5,6 +5,7 @@ namespace Tests\Acceptance\ApplicationState;
 
 use Assert\Assert;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\FetchMode;
 use RuntimeException;
 
 final class DatabaseApplicationState implements ApplicationState
@@ -22,9 +23,16 @@ final class DatabaseApplicationState implements ApplicationState
         $this->database->insert('products', [
             'id' => ($numRows + 1),
             'code' => '00000' . ($numRows + 1),
-            'name' => 'Product',
+            'name' => $name,
             'price' => 1000,
         ]);
+    }
+
+    public function getProduct(string $name): array
+    {
+        $statement = $this->database->prepare('SELECT * FROM products WHERE name = :name');
+        $statement->execute(['name' => $name]);
+        return $statement->fetch(FetchMode::ASSOCIATIVE);
     }
 
     private function getNumRows(string $tableName): int

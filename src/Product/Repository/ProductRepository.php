@@ -13,6 +13,12 @@ interface ProductRepository
      */
     public function getListData(): array;
 
+    /**
+     * @param ProductCode[] $codes
+     * @return Product[]
+     */
+    public function getListByCodes(array $codes): array;
+
     public function getByCode(ProductCode $code): Product;
 
     public function create(ProductCode $code, Product $product): void;

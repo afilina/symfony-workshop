@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ item.name }}{% endblock %}
+
+{% block body %}
+    <div id="product" class="row">
+        <div class="col-sm">
+            {# Space reserved for upcoming cover picture #}
+        </div>
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">
+                    <h1>{{ item.name }}</h1>
+                    <p class="card-text">{{ (item.price / 100) | number_format(2) }}</p>
+                </div>
+                <div class="card-footer">
+                    <form>
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

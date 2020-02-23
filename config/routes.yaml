@@ -11,3 +11,13 @@ update_product:
     path: /products/update/{code}
     controller: App\Product\Controller\UpdateProduct::handle
     methods: GET|POST
+
+view_product:
+    path: /products/{code}
+    controller: App\Product\Controller\ViewProduct::handle
+    methods: GET
+
+view_cart:
+    path: /cart
+    controller: App\ShoppingCart\Controller\ViewCart::handle
+    methods: GET
