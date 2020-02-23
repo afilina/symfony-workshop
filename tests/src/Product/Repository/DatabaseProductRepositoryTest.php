@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Product\Repository;
 
+use App\Entity\Product;
 use App\Product\Repository\DatabaseProductRepository;
 use App\Tests\RepositoryTestCase;
 
@@ -20,14 +21,38 @@ class DatabaseProductRepositoryTest extends RepositoryTestCase
 
     public function testGetListData(): void
     {
-        $this->database->insert('products', ['name' => 'Product 1']);
-        $this->database->insert('products', ['name' => 'Product 2']);
+        $this->database->insert('products', ['code' => '000001'] + $this->getDefaultRow());
+        $this->database->insert('products', ['code' => '000002'] + $this->getDefaultRow());
+
+        $product1 = $this->getDefaultProduct();
+        $product1->code = '000001';
+
+        $product2 = $this->getDefaultProduct();
+        $product2->code = '000002';
+
         self::assertEquals(
-            [
-                ['name' => 'Product 1'],
-                ['name' => 'Product 2']
-            ],
+            [$product1, $product2],
             $this->repository->getListData()
         );
+    }
+
+    public function getDefaultRow(): array
+    {
+        return [
+            'id' => '1',
+            'code' => '000001',
+            'name' => 'Product',
+            'price' => 1000,
+        ];
+    }
+
+    public function getDefaultProduct(): Product
+    {
+        $product = new Product();
+        $product->code = '000001';
+        $product->name = 'Product';
+        $product->price = 1000;
+
+        return $product;
     }
 }

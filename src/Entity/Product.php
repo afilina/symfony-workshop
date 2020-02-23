@@ -5,5 +5,16 @@ namespace App\Entity;
 
 class Product
 {
+    /**
+     * @var string
+     */
+    public $code;
+    /**
+     * @var string
+     */
     public $name;
+    /**
+     * @var int
+     */
+    public $price;
 }

@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.29)
 # Database: symfony_test
-# Generation Time: 2020-02-23 03:23:54 +0000
+# Generation Time: 2020-02-23 05:28:39 +0000
 # ************************************************************
 
 
@@ -27,7 +27,10 @@ DROP TABLE IF EXISTS `products`;
 
 CREATE TABLE `products` (
   `id` int(10) unsigned NOT NULL,
-  `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ''
+  `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `price` int(11) NOT NULL,
+  `code` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 

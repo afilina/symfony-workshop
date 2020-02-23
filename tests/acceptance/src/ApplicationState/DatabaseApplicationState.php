@@ -5,7 +5,6 @@ namespace Tests\Acceptance\ApplicationState;
 
 use Assert\Assert;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\FetchMode;
 use RuntimeException;
 
 final class DatabaseApplicationState implements ApplicationState
@@ -22,7 +21,9 @@ final class DatabaseApplicationState implements ApplicationState
         $numRows = $this->getNumRows('products');
         $this->database->insert('products', [
             'id' => ($numRows + 1),
-            'name' => $name,
+            'code' => '00000' . ($numRows + 1),
+            'name' => 'Product',
+            'price' => 1000,
         ]);
     }
 
