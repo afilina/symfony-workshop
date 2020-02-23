@@ -3,9 +3,12 @@
 {% block title %}Products{% endblock %}
 
  {% block body %}
+     <a href="{{ path('create_product') }}">Create product</a>
      <ul id="products">
          {% for item in items %}
-             <li class="product">{{ item.name }}</li>
+             <li class="product">
+                 {{ item.name }} <a href="{{ path('update_product', {code: item.code}) }}">Edit</a>
+             </li>
          {% endfor %}
      </ul>
  {% endblock %}

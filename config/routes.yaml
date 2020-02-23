@@ -1,3 +1,13 @@
 list_products:
     path: /products
     controller: App\Product\Controller\ListProducts::handle
+
+create_product:
+    path: /products/create
+    controller: App\Product\Controller\CreateProduct::handle
+    methods: GET|POST
+
+update_product:
+    path: /products/update/{code}
+    controller: App\Product\Controller\UpdateProduct::handle
+    methods: GET|POST
