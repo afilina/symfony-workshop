@@ -5,4 +5,5 @@ namespace App\Entity;
 
 class Product
 {
+    public $name;
 }
