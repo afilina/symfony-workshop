@@ -3,9 +3,9 @@
 {% block title %}Products{% endblock %}
 
  {% block body %}
-     <ul>
+     <ul id="products">
          {% for item in items %}
-             <li>{{ item.name }}</li>
+             <li class="product">{{ item.name }}</li>
          {% endfor %}
      </ul>
  {% endblock %}
