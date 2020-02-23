@@ -7,6 +7,8 @@ use App\Product\Controller\ListProducts;
 use App\Product\Repository\ProductRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment as Twig;
 
 /** @covers \App\Product\Controller\ListProducts */
@@ -49,6 +51,9 @@ final class ListProductsTest extends TestCase
                 ['items' => self::PRODUCTS]
             );
 
-        $this->controller->handle();
+        self::assertInstanceOf(
+            Response::class,
+            $this->controller->handle(new Request())
+        );
     }
 }

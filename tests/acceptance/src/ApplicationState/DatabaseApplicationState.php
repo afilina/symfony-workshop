@@ -21,18 +21,14 @@ final class DatabaseApplicationState implements ApplicationState
     {
         $numRows = $this->getNumRows('products');
         $this->database->insert('products', [
-            'id' => ($numRows + 1),
             'code' => '00000' . ($numRows + 1),
-            'name' => $name,
-            'price' => 1000,
+            'id' => ($numRows + 1),
         ]);
-    }
-
-    public function getProduct(string $name): array
-    {
-        $statement = $this->database->prepare('SELECT * FROM products WHERE name = :name');
-        $statement->execute(['name' => $name]);
-        return $statement->fetch(FetchMode::ASSOCIATIVE);
+        $this->database->insert('product_translation', [
+            'name' => $name,
+            'code' => '00000' . ($numRows + 1),
+            'locale' => 'en',
+        ]);
     }
 
     private function getNumRows(string $tableName): int
@@ -75,5 +71,17 @@ final class DatabaseApplicationState implements ApplicationState
         if ($exitCode !== 0) {
             throw new RuntimeException($stdOut . "\n" . implode("\n", $output));
         }
+    }
+
+    public function getProduct(string $name): array
+    {
+        $statement = $this->database->prepare('
+            SELECT p.*, t.name
+            FROM products p 
+            INNER JOIN product_translation t ON t.code = p.code AND t.locale = :locale
+            WHERE t.name = :name'
+        );
+        $statement->execute(['name' => $name, 'locale' => 'en']);
+        return $statement->fetch(FetchMode::ASSOCIATIVE);
     }
 }

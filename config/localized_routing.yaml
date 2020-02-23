@@ -1,3 +1,16 @@
+app_login:
+    path: /login
+    controller: App\Security\Controller\SecurityController::login
+
+app_logout:
+    path: /logout
+    controller: App\Security\Controller\SecurityController::logout
+
+forgot_password:
+    path: /forgot-password
+    controller: App\Security\Controller\ForgotPassword::handle
+    methods: GET|POST
+
 list_products:
     path: /products
     controller: App\Product\Controller\ListProducts::handle

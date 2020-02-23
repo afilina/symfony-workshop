@@ -20,24 +20,13 @@ abstract class ProductType extends AbstractType
         $builder
             ->add('code', TextType::class, [
                 'required' => true,
-                'constraints' => [
-                    new Length(['min' => 6, 'max' => 6])
-                ],
-
             ])
             ->add('name', TextType::class, [
                 'required' => true,
-                'constraints' => [
-                    new Length(['max' => 200])
-                ],
-
             ])
             ->add('price', MoneyType::class, [
                 'currency' => 'CAD',
                 'required' => true,
-                'constraints' => [
-                    new GreaterThanOrEqual(0)
-                ],
             ])
         ;
 
