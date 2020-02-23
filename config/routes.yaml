@@ -1,3 +1,3 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+list_products:
+    path: /products
+    controller: App\Product\Controller\ListProducts::handle
