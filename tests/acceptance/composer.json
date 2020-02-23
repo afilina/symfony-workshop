@@ -1,0 +1,20 @@
+{
+    "require": {
+        "behat/behat": "^3.5",
+        "beberlei/assert": "^3.2",
+        "php-di/php-di": "^6.0",
+        "roave/behat-psr11extension": "^1.1",
+        "guzzlehttp/guzzle": "^6.5",
+        "fabpot/goutte": "^4.0",
+        "doctrine/dbal": "^2.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tests\\Acceptance\\": "src/",
+            "Tests\\Acceptance\\Context\\": "src/Context"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}

@@ -20,3 +20,6 @@ yarn-error.log
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+/tests/acceptance/vendor/
+/public/uploads

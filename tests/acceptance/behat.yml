@@ -1,0 +1,22 @@
+default:
+    autoload:
+        'Tests\Acceptance\Context\': '%paths.base%/src/Context/'
+    gherkin:
+        filters:
+            tags: ~@wip
+
+    suites:
+        default:
+            services: '@psr_container'
+            paths:
+                - 'features/'
+            contexts:
+                - 'Tests\Acceptance\Context\ResetApplicationState':
+                    - '@Tests\Acceptance\ApplicationState\ApplicationState'
+                - 'Tests\Acceptance\Context\Product':
+                    - '@Symfony\Component\BrowserKit\HttpBrowser'
+                    - '@Tests\Acceptance\ApplicationState\ApplicationState'
+
+    extensions:
+        Roave\BehatPsrContainer\PsrContainerExtension:
+            container: 'src/services.php'
