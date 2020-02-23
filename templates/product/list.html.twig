@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Products{% endblock %}
+{% block title %}
+    {% trans %}Products{% endtrans %}
+{% endblock %}
 
  {% block body %}
      <div id="products" class="card-columns">
@@ -15,7 +17,9 @@
                  <p class="card-text">{{ (item.price / 100) | number_format(2) }}</p>
              </div>
              <div class="card-footer">
-                 <a class="btn btn-primary" href="{{ path('update_product', {code: item.code}) }}">Edit</a>
+                 <a class="btn btn-primary" href="{{ path('update_product', {code: item.code}) }}">
+                     {% trans %}Edit{% endtrans %}
+                 </a>
              </div>
          </div>
          {% endfor %}

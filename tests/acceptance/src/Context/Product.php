@@ -33,7 +33,7 @@ class Product implements Context
     public function iAmViewingProduct(string $name)
     {
         $product = $this->applicationState->getProduct($name);
-        $this->browser->request('GET', '/products/' . $product['code']);
+        $this->browser->request('GET', '/en/products/' . $product['code']);
         Assert::that($this->browser->getResponse()->getStatusCode())
             ->eq(200);
     }
@@ -43,7 +43,7 @@ class Product implements Context
      */
     public function iListTheProducts()
     {
-        $this->browser->request('GET', '/products');
+        $this->browser->request('GET', '/en/products');
         Assert::that($this->browser->getResponse()->getStatusCode())
             ->eq(200);
     }

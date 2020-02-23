@@ -15,7 +15,9 @@
                 </div>
                 <div class="card-footer">
                     <form action="{{ path('cart_add_product', {code: item.code}) }}" method="POST">
-                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        <button type="submit" class="btn btn-primary">
+                            {% trans %}Add to Cart{% endtrans %}
+                        </button>
                     </form>
                 </div>
             </div>

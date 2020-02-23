@@ -28,3 +28,7 @@ services:
     # please note that last definitions always *replace* previous ones
 
     App\Product\Repository\ProductRepository: '@App\Product\Repository\DatabaseProductRepository'
+
+    App\EventListener\LocaleListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }

@@ -16,12 +16,14 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment as Twig;
 
 /** @covers \App\Product\Controller\CreateProduct */
 class CreateProductTest extends TestCase
 {
     const PRODUCT_CODE = '000001';
+    const REDIRECT_URL = '/redirect-url';
 
     private CreateProduct $controller;
     /** @var ProductRepository|MockObject */
@@ -32,6 +34,8 @@ class CreateProductTest extends TestCase
     private $formFactory;
     /** @var MockObject|FormInterface */
     private $form;
+    /** @var MockObject|UrlGeneratorInterface */
+    private $urlGenerator;
 
     protected function setUp(): void
     {
@@ -39,6 +43,7 @@ class CreateProductTest extends TestCase
         $this->templating = $this->createMock(Twig::class);
         $this->formFactory = $this->createMock(FormFactoryInterface::class);
         $this->form = $this->createMock(FormInterface::class);
+        $this->urlGenerator = $this->createMock(UrlGeneratorInterface::class);
 
         $this->formFactory
             ->method('create')
@@ -47,7 +52,8 @@ class CreateProductTest extends TestCase
         $this->controller = new CreateProduct(
             $this->templating,
             $this->productRepository,
-            $this->formFactory
+            $this->formFactory,
+            $this->urlGenerator
         );
     }
 
@@ -71,6 +77,7 @@ class CreateProductTest extends TestCase
         $this->setupInputIsValid();
 
         $this->expectSave($this->once());
+        $this->expectRedirectToRoute('list_products');
 
         self::assertInstanceOf(
             RedirectResponse::class,
@@ -153,5 +160,18 @@ class CreateProductTest extends TestCase
         $this->form
             ->expects($matcher)
             ->method('addError');
+    }
+
+    /**
+     * @param string $routeName
+     */
+    protected function expectRedirectToRoute(string $routeName): void
+    {
+        // TODO: we probably want to extract this common behavior to a ControllerTestCase
+        $this->urlGenerator
+            ->expects($this->once())
+            ->method('generate')
+            ->with($routeName)
+            ->willReturn(self::REDIRECT_URL);
     }
 }

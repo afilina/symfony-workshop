@@ -6,8 +6,8 @@
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 5.7.29)
-# Database: symfony_test
-# Generation Time: 2020-02-23 05:28:39 +0000
+# Database: symfony
+# Generation Time: 2020-02-23 20:52:14 +0000
 # ************************************************************
 
 
@@ -20,6 +20,22 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
+# Dump of table product_translation
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `product_translation`;
+
+CREATE TABLE `product_translation` (
+  `locale` char(2) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`locale`,`code`),
+  KEY `IDX_1846DB7077153098` (`code`),
+  CONSTRAINT `product_translation_code` FOREIGN KEY (`code`) REFERENCES `products` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
 # Dump of table products
 # ------------------------------------------------------------
 
@@ -27,7 +43,6 @@ DROP TABLE IF EXISTS `products`;
 
 CREATE TABLE `products` (
   `id` int(10) unsigned NOT NULL,
-  `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `price` int(11) NOT NULL,
   `code` char(6) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`code`)

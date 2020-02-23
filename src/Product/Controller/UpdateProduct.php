@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment as Twig;
 
 final class UpdateProduct
@@ -17,16 +18,19 @@ final class UpdateProduct
     private Twig $templating;
     private ProductRepository $productRepository;
     private FormFactoryInterface $formFactory;
+    private UrlGeneratorInterface $urlGenerator;
 
     public function __construct(
         Twig $templating,
         ProductRepository $productRepository,
-        FormFactoryInterface $formFactory
+        FormFactoryInterface $formFactory,
+        UrlGeneratorInterface $urlGenerator
     )
     {
         $this->templating = $templating;
         $this->productRepository = $productRepository;
         $this->formFactory = $formFactory;
+        $this->urlGenerator = $urlGenerator;
     }
 
     public function handle(Request $request): Response
@@ -43,7 +47,7 @@ final class UpdateProduct
                 ProductCode::fromString($product->code),
                 $product
             );
-            return new RedirectResponse("/products");
+            return new RedirectResponse($this->urlGenerator->generate('list_products'));
         }
 
         return new Response(
